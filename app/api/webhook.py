@@ -10,6 +10,7 @@ logger.info("🚀 Router Inciado 🚀 ")
 
 @router.post("/webhook")
 async def receive_message(request: Request):
+    logger.info("Webhook recebido")
 
     body = await request.json()
     logger.info(f"[📬 WEBHOOK RAIZ] {body}")
