@@ -1,6 +1,10 @@
-def main():
-    print("Hello from boolish-multiagent!")
+from fastapi import FastAPI
+from app.utils.logger import logger
+from app.api.webhook import router as webhook_router
 
+logger.info("🚀 Iniciado com sucesso 🚀 ")
 
-if __name__ == "__main__":
-    main()
+app = FastAPI()
+app.include_router(
+    webhook_router
+)
