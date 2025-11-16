@@ -10,11 +10,23 @@ logger.info("🚀 Router Inciado 🚀 ")
 
 @router.post("/webhook")
 async def receive_message(request: Request):
-    logger.info("Webhook recebido")
+    try:
+        logger.info("🚨 Webhook chegou! Tentando ler body...")
+        body = await request.json()
+        logger.info(f"[📬 WEBHOOK RECEBIDO] {body}")
+        response = await process_message(body)
+        logger.info("✅ Webhook processado com sucesso")
+        return response
 
-    body = await request.json()
-    logger.info(f"[📬 WEBHOOK RAIZ] {body}")
-    return await process_message(body)
+    except Exception as e:
+        logger.error(f"❌ Erro no webhook: {e}")
+        return {"status": "error", "message": str(e)}
+
+
+@router.get("/webhook")
+def verify_webhook():
+    logger.info("🔎 Verificação GET no /webhook")
+    return {"status": "online"}
 
 
 @router.get("/ping")
